@@ -1,0 +1,11 @@
+{
+    "id": "botble/estimate",
+    "name": "Estimate",
+    "namespace": "Botble\\Estimate\\",
+    "provider": "Botble\\Estimate\\Providers\\EstimateServiceProvider",
+    "author": "le nguyen vy",
+    "url": "",
+    "version": "1.0.0",
+    "description": "Dự toán chi phí xây dựng",
+    "minimum_core_version": "7.6.2.1"
+}

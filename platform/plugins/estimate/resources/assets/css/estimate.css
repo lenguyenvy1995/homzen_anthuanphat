@@ -1,0 +1,51 @@
+.estimate-box {
+    max-width: 420px;
+    background: #fff;
+    border: 1px solid #f1a23c;
+    padding: 20px;
+}
+
+.estimate-title {
+    background: linear-gradient(90deg, #f6b24b, #f1a23c);
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+    margin: -20px -20px 20px;
+    font-weight: 600;
+}
+
+.estimate-form .form-group {
+    margin-bottom: 12px;
+}
+
+.estimate-form label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+#estimate-result {
+    margin-top: 20px;
+    border-top: 1px dashed #ddd;
+    padding-top: 15px;
+}
+
+#estimate-result ul {
+    list-style: none;
+    padding: 0;
+}
+
+#estimate-result li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+#estimate-result strong {
+    color: #d35400;
+}
+
+.btn-warning {
+    width: 100%;
+    font-weight: 600;
+}
