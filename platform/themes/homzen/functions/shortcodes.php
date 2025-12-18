@@ -656,6 +656,12 @@ Event::listen(RouteMatched::class, function (): void {
                 MediaImageField::class,
                 MediaImageFieldOption::make()
                     ->label(__('Image'))
+            )
+            ->add(
+                'image2',
+                MediaImageField::class,
+                MediaImageFieldOption::make()
+                    ->label(__('Image2'))
             );
     });
 });
