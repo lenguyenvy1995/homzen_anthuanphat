@@ -23,6 +23,10 @@ app('events')->listen(RenderingThemeOptionSettings::class, function (): void {
                     ->label(__('Primary color'))
                     ->defaultValue('#db1d23'),
                 ColorField::make()
+                    ->name('secondary_color')
+                    ->label(__('Secondary color'))
+                    ->defaultValue('#000'),
+                ColorField::make()
                     ->name('hover_color')
                     ->label(__('Hover color'))
                     ->defaultValue('#cd380f'),
@@ -99,7 +103,7 @@ app('events')->listen(RenderingThemeOptionSettings::class, function (): void {
                 ->defaultValue(1)
                 ->numberItemsPerRow(2)
                 ->options(
-                    collect(range(1, 4))->mapWithKeys(fn ($style) => [
+                    collect(range(1, 4))->mapWithKeys(fn($style) => [
                         $style => [
                             'image' => Theme::asset()->url("images/single-layouts/style-$style.png"),
                             'label' => __('Style :number', ['number' => $style]),
@@ -124,7 +128,7 @@ app('events')->listen(RenderingThemeOptionSettings::class, function (): void {
                 ->defaultValue(1)
                 ->numberItemsPerRow(2)
                 ->options(
-                    collect(range(1, 4))->mapWithKeys(fn ($style) => [
+                    collect(range(1, 4))->mapWithKeys(fn($style) => [
                         $style => [
                             'image' => Theme::asset()->url("images/single-layouts/style-$style.png"),
                             'label' => __('Style :number', ['number' => $style]),

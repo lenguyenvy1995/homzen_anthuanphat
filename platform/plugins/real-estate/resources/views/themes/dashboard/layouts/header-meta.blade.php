@@ -14,6 +14,7 @@
     :root {
         --primary-font: "{{ theme_option('primary_font', 'Inter') }}";
         --primary-color: {{ $primaryColor = theme_option('primary_color', '#206bc4') }};
+        --secondary-color: {{ $secondaryColor = theme_option('secondary_color', '#206bc4') }};
         --primary-color-rgb: {{ implode(', ', BaseHelper::hexToRgb($primaryColor)) }};
         --secondary-color: {{ $secondaryColor = '#6c7a91' }};
         --secondary-color-rgb: {{ implode(', ', BaseHelper::hexToRgb($secondaryColor)) }};

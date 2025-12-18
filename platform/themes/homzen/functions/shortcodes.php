@@ -543,6 +543,20 @@ Event::listen(RouteMatched::class, function (): void {
                 TextFieldOption::make()
                     ->label(__('Video URL'))
                     ->helperText(__('If a Video URL is provided, a play icon will appear on the image, allowing users to click and play the video.')),
+            )
+            ->add(
+                'background_image',
+                MediaImageField::class,
+                MediaImageFieldOption::make()
+                    ->label(__('Background image'))
+                    ->toArray()
+            )
+            ->add(
+                'background_color',
+                ColorField::class,
+                ColorFieldOption::make()
+                    ->label(__('Background color'))
+                    ->toArray(),
             );
     });
 

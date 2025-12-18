@@ -8,6 +8,7 @@
         <style>
             :root {
                 --primary-color: {{ theme_option('primary_color', '#db1d23') }};
+                --secondary-color: {{ theme_option('secondary_color', '#000') }};
                 --hover-color: {{ theme_option('hover_color', '#cd380f') }};
                 --top-header-background-color: {{ theme_option('top_header_background_color', '#f7f7f7') }};
                 --top-header-text-color: {{ theme_option('top_header_text_color', '#161e2d') }};
