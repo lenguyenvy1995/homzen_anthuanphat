@@ -91,7 +91,7 @@ class PostForm extends FormAbstract
                             );
                     })
             )
-            ->add('image', MediaImageField::class, MediaImageFieldOption::make())
+            ->add('image', type: MediaImageField::class, MediaImageFieldOption::make())
             ->add(
                 'tag',
                 TagField::class,

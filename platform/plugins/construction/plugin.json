@@ -1,0 +1,11 @@
+{
+    "id": "botble/Construction",
+    "name": "Construction",
+    "namespace": "Botble\\Construction\\",
+    "provider": "Botble\\Construction\\Providers\\ConstructionServiceProvider",
+    "author": "tivatech",
+    "url": "",
+    "version": "1.0.0",
+    "description": "Thi công xây dựng",
+    "minimum_core_version": "7.6.2.1"
+}
