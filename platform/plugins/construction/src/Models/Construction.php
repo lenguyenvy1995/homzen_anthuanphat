@@ -11,7 +11,7 @@ class Construction extends BaseModel
 {
     use HasSlug;
 
-    protected $table = 'construction';
+    protected $table = 'constructions';
 
     protected $fillable = [
         'name',
