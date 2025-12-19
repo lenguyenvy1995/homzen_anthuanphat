@@ -4,4 +4,34 @@
     background-size: cover !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
+    &.shortcode-customer-about{
+        .about-cotent{
+            .about-cotent-title{
+                background: linear-gradient(180deg, #ffb300 0%, rgb(248 166 67) 50%, rgb(246 151 34) 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                display: flex;
+                flex-flow: row wrap;
+                align-items: center;
+                -webkit-box-pack: justify;
+                text-align: left;
+                line-height: 1.2 !important;
+                font-size: 5rem;
+                padding: 5px 0;
+                justify-content: space-between;
+                width: 100%;
+                font-weight: 400;
+                font-family: "Beautique Display", serif;
+            }
+            .about-cotent-description{
+                font-size: 20px !important;
+                text-align: justify;
+                b{
+                    font-weight: bolder;
+                    color: var(--color-primary);
+                }
+            }
+        }
+    }
 }

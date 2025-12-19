@@ -20,22 +20,27 @@
     -ms-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
+
     &:hover {
         background-color: $primary;
         color: $white;
         border-color: $primary;
     }
+
     &.primary {
         background-color: $primary;
         color: $white;
         border-color: $primary;
+
         &:hover {
             background-color: $primary-hover;
         }
     }
+
     &.size-1 {
         padding: 11px 32px;
     }
+
     &.size-2 {
         padding: 11px 40px;
     }
@@ -60,8 +65,10 @@
         .icon {
             animation: 0.3s link-icon linear;
         }
+
         .text {
             color: $on-surface;
+
             &::before {
                 width: 100%;
                 left: 0;
@@ -79,6 +86,7 @@
         font-family: $font-2;
         color: $on-surface;
         position: relative;
+
         &::before {
             position: absolute;
             content: '';
@@ -93,6 +101,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
+
     .icon {
         color: $primary;
     }
@@ -102,9 +111,11 @@
             animation: 0.3s link-icon linear;
         }
     }
+
     &.style-1 {
         .text {
             color: $variant-1;
+
             &::before {
                 width: 0;
                 left: auto;
@@ -115,5 +126,139 @@
                 background-color: $on-surface;
             }
         }
+    }
+}
+
+/*=============================
+	1. Button style Tivatech
+===============================*/
+
+.btn {
+    user-select: none;
+    -moz-user-select: none;
+    background: var(--tg-theme-primary) none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 10px;
+    color: $white;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1;
+    margin-bottom: 0;
+    padding: 18px 24px;
+    text-align: center;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transition: all 0.3s ease-out 0s;
+    vertical-align: middle;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+
+    &::before {
+        content: '';
+        position: absolute;
+        -webkit-transition-duration: 800ms;
+        transition-duration: 800ms;
+        width: 200%;
+        height: 200%;
+        top: 110%;
+        left: 50%;
+        background: $secondary;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        z-index: -1;
+    }
+
+
+    &:hover,
+    &:focus-visible {
+        color: $secondary !important;
+        background: $primary;
+
+        &:before {
+            top: -40%;
+        }
+    }
+
+    &-two {
+        background: $secondary;
+
+        &:hover {
+            background: $secondary;
+        }
+
+        &::before {
+            background: $primary;
+        }
+    }
+
+    &.btn-login-social {
+        background-color: $white;
+        width: 100%;
+        color: var(--tg-color-body-color);
+        justify-content: center;
+        font-size: 16px;
+        line-height: 28px;
+        text-transform: capitalize;
+
+        img {
+            margin-inline-end: 15px;
+        }
+
+        &:after {
+            display: none;
+        }
+
+        &:hover {
+            color: $white;
+        }
+    }
+
+    &.btn-login {
+        width: 100%;
+        border-radius: 11px;
+        padding: 20px 26px;
+        justify-content: center;
+        font-size: 18px;
+        line-height: 28px;
+
+        &:hover {
+            background-color: $secondary;
+        }
+    }
+
+    &.border-yellow-btn {
+        border: 1px solid $primary;
+        background: transparent;
+        color: $primary;
+        padding: 17px 24px;
+
+        &::before {
+            background-color: $primary;
+        }
+
+        &:hover {
+            color: $white;
+        }
+    }
+}
+
+.border-btn {
+    border: 1px solid $secondary;
+    background: transparent;
+    color: $secondary;
+    padding: 17px 24px;
+
+    &::before {
+        display: none;
+    }
+
+    &:hover {
+        background: $secondary;
     }
 }
