@@ -67,9 +67,9 @@ class ConstructionServiceProvider extends ServiceProvider
             SlugHelper::registerModule(ConstructionCategory::class);
             SlugHelper::setPrefix(ConstructionCategory::class, 'thi-cong-xay-dung');
 
-            // // Construction (bài viết)
-            // SlugHelper::registerModule(Construction::class);
-            // SlugHelper::setPrefix(Construction::class, 'thi-cong-xay-dung');
+            // Construction (bài viết)
+            SlugHelper::registerModule(Construction::class);
+            SlugHelper::setPrefix(Construction::class, 'thi-cong-xay-dung');
         });
     }
 }
