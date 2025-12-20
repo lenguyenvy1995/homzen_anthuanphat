@@ -25,26 +25,6 @@ class ConstructionCategoryForm extends FormAbstract
             ->setValidatorClass(ConstructionCategoryRequest::class)
             ->add('name', TextField::class, NameFieldOption::make()->required())
             ->add(
-                'parent_id',
-                SelectField::class,
-                SelectFieldOption::make()
-                    ->label('Danh mục cha')
-                    ->choices(
-                        ConstructionCategory::query()
-                            ->where('id', '!=', $this->getModel()->id)
-                            ->pluck('name', 'id')
-                            ->all()
-                    )
-                    ->choices(
-                        [0 => '— Danh mục gốc —'] +
-                            ConstructionCategory::query()
-                            ->where('id', '!=', $this->getModel()->id)
-                            ->pluck('name', 'id')
-                            ->all()
-                    )
-                    ->toArray()
-            )
-            ->add(
                 'description',
                 TextareaField::class,
                 TextareaFieldOption::make()
@@ -62,4 +42,5 @@ class ConstructionCategoryForm extends FormAbstract
 
             ->setBreakFieldPoint('status');
     }
+    
 }

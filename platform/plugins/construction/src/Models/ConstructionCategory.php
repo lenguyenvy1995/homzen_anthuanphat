@@ -38,7 +38,6 @@ class ConstructionCategory extends BaseModel implements HasTreeCategoryContract
         static::deleted(function (ConstructionCategory $category): void {
             $category->children()->each(fn(Model $child) => $child->delete());
 
-            $category->posts()->detach();
         });
     }
     public function constructions(): BelongsToMany

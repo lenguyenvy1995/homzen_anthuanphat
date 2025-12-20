@@ -14,6 +14,7 @@ use Botble\Base\Supports\RepositoryHelper;
 use Botble\Base\Facades\Assets;
 use Botble\Base\Forms\FormAbstract;
 use Illuminate\Support\Facades\Auth;
+use Botble\Base\Http\Actions\DeleteResourceAction;
 
 class ConstructionCategoryController extends BaseController
 {
@@ -91,9 +92,15 @@ class ConstructionCategoryController extends BaseController
             ->httpResponse()
             ->withUpdatedSuccessMessage();
     }
-    public function create()
+    public function create(Request $request)
     {
         page_title()->setTitle(trans('plugins/construction::construction.create_category'));
+
+        if ($request->ajax()) {
+            return $this
+                ->httpResponse()
+                ->setData($this->getForm());
+        }
 
         return ConstructionCategoryForm::create()->renderForm();
     }
@@ -108,15 +115,21 @@ class ConstructionCategoryController extends BaseController
             ->setNextUrl(route('construction.categories.edit', $category->id))
             ->setMessage(trans('core/base::notices.create_success_message'));
     }
-
-    public function edit(int $id)
+    public function edit(ConstructionCategory $category, Request $request)
     {
-        $category = ConstructionCategory::findOrFail($id);
+        if ($request->ajax()) {
+            return $this
+                ->httpResponse()
+                ->setData($this->getForm($category));
+        }
 
-        page_title()->setTitle(trans('plugins/construction::construction.edit_category'));
+        $this->pageTitle(trans('core/base::forms.edit_item', ['name' => $category->name]));
 
-        return ConstructionCategoryForm::createFromModel($category)->renderForm();
+        return ConstructionCategoryForm::createFromModel($category)
+            ->setUrl(route('construction.categories.edit', $category->getKey()))
+            ->renderForm();
     }
+  
 
     public function update(int $id, ConstructionCategoryRequest $request)
     {
@@ -129,12 +142,36 @@ class ConstructionCategoryController extends BaseController
             ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
-    public function destroy(int $id)
-    {
-        ConstructionCategory::findOrFail($id)->delete();
+    // public function destroy(int $id)
+    // {
+    //     ConstructionCategory::findOrFail($id)->delete();
 
-        return $this
-            ->httpResponse()
-            ->setMessage(trans('core/base::notices.delete_success_message'));
+    //     return $this
+    //         ->httpResponse()
+    //         ->setMessage(trans('core/base::notices.delete_success_message'));
+    // }
+    public function destroy(ConstructionCategory $category)
+    {
+        return DeleteResourceAction::make($category);
+    }
+    protected function getForm(?ConstructionCategory $model = null): string
+    {
+        $options = ['template' => 'core/base::forms.form-no-wrap'];
+
+        if ($model) {
+            $options['model'] = $model;
+        }
+
+        $form = ConstructionCategoryForm::create($options);
+
+        $form = $this->setFormOptions($form, $model);
+
+        if (! $model) {
+            $form->setUrl(route('construction.categories.create'));
+        } else {
+            $form->setUrl(route('construction.categories.edit', $model->getKey()));
+        }
+
+        return $form->renderForm();
     }
 }

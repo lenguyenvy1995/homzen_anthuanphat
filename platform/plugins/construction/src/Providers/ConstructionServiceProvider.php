@@ -63,13 +63,15 @@ class ConstructionServiceProvider extends ServiceProvider
                 ]);
         });
         SlugHelper::registering(function () {
-            // Category
-            SlugHelper::registerModule(ConstructionCategory::class);
-            SlugHelper::setPrefix(ConstructionCategory::class, 'thi-cong-xay-dung');
 
-            // Construction (bài viết)
-            SlugHelper::registerModule(Construction::class);
+            SlugHelper::registerModule(Construction::class, 'Thi công xây dựng');
+            SlugHelper::registerModule(ConstructionCategory::class, 'Danh mục thi công');
+
             SlugHelper::setPrefix(Construction::class, 'thi-cong-xay-dung');
+            // SlugHelper::setPrefix(ConstructionCategory::class, 'thi-cong-xay-dung');
+
+            SlugHelper::setColumnUsedForSlugGenerator(Construction::class, 'name');
+            SlugHelper::setColumnUsedForSlugGenerator(ConstructionCategory::class, 'name');
         });
     }
 }
