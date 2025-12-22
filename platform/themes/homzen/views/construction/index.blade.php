@@ -2,11 +2,15 @@
 
 <div class="p-2" >
     <div class="construction-tabs">
-        @foreach ($categories as $cat)
-            <a href="{{ $cat->url }}" class="tab">
-                {{ $cat->name }}
-            </a>
-        @endforeach
+        <ul class="construction-category-list">
+            @foreach ($categories as $cat)
+                <li>
+                    <a href="{{ $cat->url }}" class="tab">
+                        {{ $cat->name }}
+                    </a>
+                </li>
+            @endforeach
+        </ul>
     </div>
     <div class="row">
         @foreach ($constructions as $construction)

@@ -12,8 +12,15 @@ use Botble\Slug\Models\Slug;
 
 class PublicController extends BaseController
 {
+    public function __construct()
+    {
+        Theme::asset()
+            ->add('construction-css', 'vendor/core/plugins/construction/css/construction.css')
+            ->add('construction-js', 'vendor/core/plugins/construction/js/construction.js', [], ['defer' => true]);
+    }
     public function index()
     {
+
         SeoHelper::setTitle('Thi Công Xây Dựng');
         SeoHelper::setDescription('Danh sách các công trình thi công xây dựng');
         // 2. LẤY DANH SÁCH CATEGORY (để render tabs) ← THIẾU CÁI NÀY
@@ -31,25 +38,51 @@ class PublicController extends BaseController
 
         return Theme::scope(
             'construction.index',
-            compact('constructions','categories')
+            compact('constructions', 'categories')
         )->render();
     }
     public function handle(string $slug)
     {
-        $slug = Slug::query()
-            ->where('key', $slug)
-            ->where('reference_type', 'LIKE', '%Construction%')
-            ->firstOrFail();
+        $slug = SlugHelper::getSlug($slug);
 
-        return match ($slug->reference_type) {
-            Construction::class =>
-            $this->detail(Construction::findOrFail($slug->reference_id)),
+        if (! $slug) {
+            abort(404);
+        }
 
-            ConstructionCategory::class =>
-            $this->category(ConstructionCategory::findOrFail($slug->reference_id)),
+        // CATEGORY
+        if ($slug->reference_type === ConstructionCategory::class) {
+            $category = ConstructionCategory::findOrFail($slug->reference_id);
 
-            default => abort(404),
-        };
+            $categories = ConstructionCategory::query()
+                ->wherePublished()
+                ->where('parent_id', 0)
+                ->with('slugable')
+                ->get();
+
+            $constructions = Construction::query()
+                ->wherePublished()
+                ->whereHas('categories', function ($q) use ($category) {
+                    $q->where('construction_categories.id', $category->id);
+                })
+                ->paginate(9);
+
+            return Theme::scope(
+                'construction.index',
+                compact('categories', 'constructions', 'category')
+            )->render();
+        }
+
+        // CONSTRUCTION DETAIL
+        if ($slug->reference_type === Construction::class) {
+            $construction = Construction::findOrFail($slug->reference_id);
+
+            return Theme::scope(
+                'construction.show',
+                compact('construction')
+            )->render();
+        }
+
+        abort(404);
     }
 
 

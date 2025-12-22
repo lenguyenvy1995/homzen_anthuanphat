@@ -17,6 +17,7 @@
                 --main-header-border-color: {{ theme_option('main_header_border_color', '#e4e4e4') }};
                 --map-marker-icon-image: url({{ theme_option('map_marker_image') ? RvMedia::getImageUrl(theme_option('map_marker_image')) : Theme::asset()->url('images/map-icon.png') }});
             }
+          
         </style>
 
         {!! Theme::header() !!}
@@ -25,7 +26,7 @@
     <body {!! Theme::bodyAttributes() !!}>
         {!! apply_filters(THEME_FRONT_BODY, null) !!}
 
-        <div id="wrapper">
+        <div id="wrapper" style="background-color: var(--main-header-background-color)">
             <div class="clearfix">
                 @yield('content')
             </div>
