@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Botble\Base\Enums\BaseStatusEnum;
+use Botble\Slug\Models\Slug;
 
 class ConstructionCategory extends BaseModel implements HasTreeCategoryContract
 {
@@ -37,7 +38,6 @@ class ConstructionCategory extends BaseModel implements HasTreeCategoryContract
     {
         static::deleted(function (ConstructionCategory $category): void {
             $category->children()->each(fn(Model $child) => $child->delete());
-
         });
     }
     public function constructions(): BelongsToMany

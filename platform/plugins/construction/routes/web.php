@@ -25,15 +25,20 @@ AdminHelper::registerRoutes(function () {
         Route::resource('', ConstructionController::class)->parameters(['' => 'construction']);
     });
 });
+
 if (defined('THEME_MODULE_SCREEN_NAME')) {
     Route::group([
         'middleware' => ['web'],
-        'prefix' => SlugHelper::getPrefix(Construction::class), // ví dụ: thi-cong-xay-dung
+        'prefix' => SlugHelper::getPrefix(Construction::class),
         'as' => 'public.construction.',
     ], function () {
-        Route::get('', [PublicController::class, 'index'])->name('index');
 
-        // category hoặc bài viết đều đi qua đây
-        Route::get('{slug}', [PublicController::class, 'handle'])->name('handle');
+        // Trang listing
+        Route::get('', [PublicController::class, 'index'])
+            ->name('index');
+
+        // Category hoặc bài viết
+        Route::get('{slug}', [PublicController::class, 'handle'])
+            ->name('handle');
     });
 }

@@ -9,6 +9,8 @@ use Botble\Slug\Facades\SlugHelper;
 use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\Theme\Facades\Theme;
 use Botble\Slug\Models\Slug;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Http\Request;
 
 class PublicController extends BaseController
 {
@@ -41,40 +43,35 @@ class PublicController extends BaseController
             compact('constructions', 'categories')
         )->render();
     }
-    public function handle(string $slug)
+  public function handle(string $slug, Request $request)
     {
-        $slug = SlugHelper::getSlug($slug);
+        // 1. Tìm slug trong bảng slugs
+        $slugItem = Slug::query()
+            ->where('key', $slug)
+            ->whereIn('reference_type', [
+                Construction::class,
+                ConstructionCategory::class,
+            ])
+            ->first();
 
-        if (! $slug) {
-            abort(404);
+        if (! $slugItem) {
+            throw new NotFoundHttpException();
         }
 
-        // CATEGORY
-        if ($slug->reference_type === ConstructionCategory::class) {
-            $category = ConstructionCategory::findOrFail($slug->reference_id);
-
-            $categories = ConstructionCategory::query()
+        /**
+         * ==============================
+         * CASE 1: SLUG LÀ BÀI VIẾT
+         * ==============================
+         */
+        if ($slugItem->reference_type === Construction::class) {
+            $construction = Construction::query()
+                ->where('id', $slugItem->reference_id)
                 ->wherePublished()
-                ->where('parent_id', 0)
-                ->with('slugable')
-                ->get();
+                ->with(['categories'])
+                ->firstOrFail();
 
-            $constructions = Construction::query()
-                ->wherePublished()
-                ->whereHas('categories', function ($q) use ($category) {
-                    $q->where('construction_categories.id', $category->id);
-                })
-                ->paginate(9);
-
-            return Theme::scope(
-                'construction.index',
-                compact('categories', 'constructions', 'category')
-            )->render();
-        }
-
-        // CONSTRUCTION DETAIL
-        if ($slug->reference_type === Construction::class) {
-            $construction = Construction::findOrFail($slug->reference_id);
+            Theme::set('title', $construction->name);
+            Theme::set('description', $construction->description);
 
             return Theme::scope(
                 'construction.show',
@@ -82,9 +79,91 @@ class PublicController extends BaseController
             )->render();
         }
 
-        abort(404);
+        /**
+         * ==============================
+         * CASE 2: SLUG LÀ DANH MỤC
+         * ==============================
+         */
+        if ($slugItem->reference_type === ConstructionCategory::class) {
+            $category = ConstructionCategory::query()
+                ->where('id', $slugItem->reference_id)
+                ->wherePublished()
+                ->firstOrFail();
+
+            $constructions = Construction::query()
+                ->wherePublished()
+                ->whereHas('categories', function ($query) use ($category) {
+                    $query->where('construction_categories.id', $category->id);
+                })
+                ->latest()
+                ->paginate(9);
+
+            $categories = ConstructionCategory::query()
+                ->wherePublished()
+                ->where('parent_id', 0)
+                ->get();
+
+            Theme::set('title', $category->name);
+            Theme::set('description', $category->description);
+
+            return Theme::scope(
+                'construction.category',
+                compact('category', 'constructions', 'categories')
+            )->render();
+        }
+
+        throw new NotFoundHttpException();
     }
 
+    /**
+     * Chi tiết bài thi công
+     */
+    protected function handleConstruction(int $id)
+    {
+        $construction = Construction::query()
+            ->where('id', $id)
+            ->where('status', 'published')
+            ->firstOrFail();
+
+        /**
+         * Tăng view nếu cần
+         */
+        $construction->increment('views');
+
+        return Theme::scope(
+            'construction.show',
+            compact('construction')
+        )->render();
+    }
+
+    /**
+     * Danh sách bài theo category
+     */
+    protected function handleCategory(int $id)
+    {
+        $category = ConstructionCategory::query()
+            ->where('id', $id)
+            ->where('status', 'published')
+            ->firstOrFail();
+
+        $categories = ConstructionCategory::query()
+            ->where('status', 'published')
+            ->orderBy('order')
+            ->get();
+
+        $constructions = Construction::query()
+            ->where('status', 'published')
+            ->whereHas('categories', function ($q) use ($category) {
+                $q->where('construction_category_id', $category->id);
+            })
+            ->latest()
+            ->paginate(9);
+
+        return Theme::scope(
+            'construction.category',
+            compact('category', 'categories', 'constructions')
+        )->render();
+    }
 
     public function category(string $slug)
     {
