@@ -310,7 +310,8 @@ h6 {
     font-family: $font-2;
     font-weight: 600;
     text-rendering: optimizeLegibility;
-    color: $on-surface;
+    color: $primary !important;
+    
 }
 
 h1 {
@@ -429,11 +430,11 @@ label {
 }
 .text-subtitle {
     font-family: $font-2;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 24px;
-    font-weight: 600;
-    letter-spacing: 0.8px;
+    font-weight: 800;
     text-transform: uppercase;
+    color: $secondary;
 }
 //
 .fw-1 {

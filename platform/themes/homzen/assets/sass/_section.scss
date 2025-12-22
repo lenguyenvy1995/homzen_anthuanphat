@@ -135,7 +135,8 @@
             .post-author {
                 margin-top: 4px;
 
-                span, a {
+                span,
+                a {
                     color: $white;
                     font-size: 14px;
                     line-height: 24px;
@@ -1311,6 +1312,7 @@
 }
 
 .overlay {
+
     // .swiper-slide {
     //     .box-location {
     //         opacity: 0.4;
@@ -1422,7 +1424,8 @@
         }
     }
 
-    &:nth-child(5), &:nth-child(6) {
+    &:nth-child(5),
+    &:nth-child(6) {
         .box-img {
             max-height: 24rem;
 
@@ -1492,12 +1495,14 @@
         background-color: $primary;
 
         .content {
+
             h6 a,
             p {
                 color: $white;
             }
 
             .btn-view {
+
                 .text,
                 .icon {
                     color: $white;
@@ -1516,8 +1521,8 @@
 
     .icon-box {
         .icon {
-            max-width: 80px;
-            max-height: 80px;
+            width: 80px;
+            height: 80px;
             transition: all 0.8s ease;
             display: inline-block;
         }
@@ -1816,6 +1821,7 @@
 }
 
 @keyframes ani1 {
+
     0%,
     100% {
         transform: translateX(0);
@@ -1838,6 +1844,7 @@
 }
 
 @keyframes ani2 {
+
     0%,
     100% {
         transform: translateX(0);
@@ -1864,25 +1871,56 @@
     gap: 36px;
 }
 
-// widget counter
+// widget counter – FIX NHẢY SỐ DỨT ĐIỂM// widget counter – FINAL FIX
+// widget counter – HORIZONTAL, NO SHAKE (FINAL)
 .wrap-counter {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 
     .counter-box {
         display: flex;
+        flex-direction: column;
         align-items: center;
         gap: 12px;
 
-        .number {
-            font-size: 64px;
-            line-height: 66px;
-            font-family: $font-2;
-            color: $primary;
-            font-weight: 600;
+        .count-number {
+            display: inline-flex;           // 👈 NẰM NGANG
+            align-items: baseline;           // 👈 canh chữ đẹp
+            justify-content: center;
+            margin-inline: auto;        // 👈 QUAN TRỌNG
+            text-align: center;         // 👈 QUAN TRỌNG
+            // 👇 KHOÁ CỨNG KHUNG SỐ
+            min-width: 10ch;                  // chỉnh theo số lớn nhất (vd 400 → 3ch)
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+
+            .number {
+                display: inline-block;
+                width: 3ch;                  // 👈 QUAN TRỌNG: khoá width
+                text-align: right;
+
+                font-size: 64px;
+                line-height: 1;
+                font-family: $font-2;
+                font-weight: 600;
+                color: $primary;
+            }
+
+            .sub-number {
+                display: inline-block;
+                margin-left: 4px;
+
+                font-size: 64px;              // 👈 nhỏ hơn number
+                line-height: 1;
+                font-family: $font-2;
+                font-weight: 600;
+                color: $primary;
+            }
         }
 
         .title-count {
+            text-align: center;
             font-family: $font-2;
             font-size: 24px;
             line-height: 30px;
@@ -2525,6 +2563,7 @@
     }
 
     .content {
+
         h6,
         p {
             @include transition4;
@@ -2538,6 +2577,7 @@
 
     &.active,
     &:hover {
+
         // background-color: $primary;
         .icon-box {
             .icon {
@@ -2547,6 +2587,7 @@
         }
 
         .content {
+
             h6,
             p {
                 color: $white;
@@ -2589,6 +2630,7 @@
         }
 
         .content {
+
             h6,
             p {
                 color: $white;
@@ -2609,6 +2651,7 @@
             }
 
             .content {
+
                 p,
                 h6 {
                     color: $on-surface;
@@ -2792,7 +2835,7 @@
     animation-delay: 0.2s;
 }
 
-.marker-card .face > div {
+.marker-card .face>div {
     background-image: url(../../assets/images/section/bg-icon.jpg);
     position: absolute;
     height: 100%;
@@ -3240,7 +3283,8 @@
 }
 
 .fixed-header {
-    position: -webkit-sticky; /* Safari */
+    position: -webkit-sticky;
+    /* Safari */
     position: sticky;
     top: 0;
 }
@@ -3758,6 +3802,7 @@
     from {
         transform: rotate(-360deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -3937,6 +3982,7 @@
         }
 
         li {
+
             &:hover,
             &.active {
                 .cate-single-item {

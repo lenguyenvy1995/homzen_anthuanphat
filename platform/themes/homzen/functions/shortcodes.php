@@ -94,7 +94,7 @@ Event::listen(RouteMatched::class, function (): void {
         __('Displays a set of services in a tabbed format. Each tab represents a service and includes fields for title, description, icon, ...'),
         function (ShortcodeCompiler $shortcode) {
             $services = Shortcode::fields()->getTabsData(['title', 'description', 'icon', 'icon_image', 'button_label', 'button_url'], $shortcode, 'services');
-            $counters = Shortcode::fields()->getTabsData(['number', 'label'], $shortcode, 'counters');
+            $counters = Shortcode::fields()->getTabsData(['number','subnumber', 'label'], $shortcode, 'counters');
 
             $iconImageSize = $shortcode->icon_image_size ?: 80;
 
@@ -208,6 +208,10 @@ Event::listen(RouteMatched::class, function (): void {
                         'number' => [
                             'type' => 'number',
                             'title' => __('Number'),
+                        ],
+                        'subnumber' => [
+                            'type' => 'subnumber',
+                            'title' => __('Subnumber'),
                         ],
                     ], 'counters')
                     ->attrs($attributes)
