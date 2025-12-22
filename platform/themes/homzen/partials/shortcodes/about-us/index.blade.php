@@ -32,7 +32,7 @@
                             </a>
                         @endif
                     </div> --}}
-                    <div class="about-cotent-btn">
+                    <div class="about-cotent-btn mt-4">
                         @if ($shortcode->button_label)
                             <a href="{{ $shortcode->button_url }}" class="btn btn-two">
                            {{ $shortcode->button_label }}       <span class="ms-2 icon icon-arrow-right2"></span>
