@@ -18,13 +18,13 @@ Route::group([
     Route::group(['prefix' => 'estimate'], function () {
 
         Route::resource(
-            'house-types',
+            'house_types',
             HouseTypeController::class
-        )->except(['show'])->names('estimate.house-types');
+        )->names('estimate.house_types');
         Route::resource(
-            'construction-types',
+            'construction_types',
             ConstructionTypeController::class
-        )->except(['show'])->names('estimate.construction-types');
+        )->except(['show'])->names('estimate.construction_types');
         Route::resource('floors', FloorController::class)
             ->except(['show'])->names('estimate.floors');
         Route::resource(
