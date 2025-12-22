@@ -25,7 +25,8 @@ class ConstructionServiceProvider extends ServiceProvider
             ->loadAndPublishTranslations()
             ->loadRoutes()
             ->loadAndPublishViews()
-            ->loadMigrations();
+            ->loadMigrations()
+            ->loadRoutes(fileNames: ['web']);
 
         if (defined('LANGUAGE_ADVANCED_MODULE_SCREEN_NAME')) {
             LanguageAdvancedManager::registerModule(Construction::class, [
@@ -68,10 +69,7 @@ class ConstructionServiceProvider extends ServiceProvider
             SlugHelper::registerModule(ConstructionCategory::class, 'Danh mục thi công');
 
             SlugHelper::setPrefix(Construction::class, 'thi-cong-xay-dung');
-            // SlugHelper::setPrefix(ConstructionCategory::class, 'thi-cong-xay-dung');
-
-            SlugHelper::setColumnUsedForSlugGenerator(Construction::class, 'name');
-            SlugHelper::setColumnUsedForSlugGenerator(ConstructionCategory::class, 'name');
+            SlugHelper::setPrefix(ConstructionCategory::class, 'thi-cong-xay-dung');
         });
     }
 }

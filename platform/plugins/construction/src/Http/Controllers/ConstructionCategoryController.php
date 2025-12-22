@@ -15,6 +15,9 @@ use Botble\Base\Facades\Assets;
 use Botble\Base\Forms\FormAbstract;
 use Illuminate\Support\Facades\Auth;
 use Botble\Base\Http\Actions\DeleteResourceAction;
+use Botble\Base\Events\CreatedContentEvent;
+use Botble\Base\Events\UpdatedContentEvent;
+use Botble\Base\Events\DeletedContentEvent;
 
 class ConstructionCategoryController extends BaseController
 {
@@ -30,7 +33,6 @@ class ConstructionCategoryController extends BaseController
             ->latest('is_default')
             ->oldest('order')
             ->with('slugable');
-
         $categories = RepositoryHelper::applyBeforeExecuteQuery(
             $categories,
             new ConstructionCategory()
@@ -105,15 +107,14 @@ class ConstructionCategoryController extends BaseController
         return ConstructionCategoryForm::create()->renderForm();
     }
 
-    public function store(ConstructionCategoryRequest $request)
+    public function store(ConstructionCategoryRequest $request, BaseHttpResponse $response)
     {
         $category = ConstructionCategory::create($request->validated());
-
-        return $this
-            ->httpResponse()
+        event(new CreatedContentEvent('construction', $request, $category));
+        return $response
             ->setPreviousUrl(route('construction.categories.index'))
             ->setNextUrl(route('construction.categories.edit', $category->id))
-            ->setMessage(trans('core/base::notices.create_success_message'));
+            ->setMessage('Tạo danh mục thi công thành công!');
     }
     public function edit(ConstructionCategory $category, Request $request)
     {
@@ -129,12 +130,13 @@ class ConstructionCategoryController extends BaseController
             ->setUrl(route('construction.categories.edit', $category->getKey()))
             ->renderForm();
     }
-  
+
 
     public function update(int $id, ConstructionCategoryRequest $request)
     {
         $category = ConstructionCategory::findOrFail($id);
         $category->update($request->validated());
+        event(new UpdatedContentEvent('construction', $request, $category));
 
         return $this
             ->httpResponse()
@@ -150,12 +152,17 @@ class ConstructionCategoryController extends BaseController
     //         ->httpResponse()
     //         ->setMessage(trans('core/base::notices.delete_success_message'));
     // }
-    public function destroy(ConstructionCategory $category)
+    public function destroy(ConstructionCategory $category, BaseHttpResponse $response)
     {
-        return DeleteResourceAction::make($category);
+        return DeleteResourceAction::make($category)
+            ->afterDeleting(function (DeleteResourceAction $action) {
+                $action->getHttpResponse()
+                    ->setMessage('Xóa danh mục thi công thành công!');
+            });
     }
     protected function getForm(?ConstructionCategory $model = null): string
     {
+
         $options = ['template' => 'core/base::forms.form-no-wrap'];
 
         if ($model) {

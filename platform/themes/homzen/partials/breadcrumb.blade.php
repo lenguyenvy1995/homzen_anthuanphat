@@ -10,7 +10,7 @@
 @endphp
 
 @if ($showBreadcrumb === 'yes')
-    <section class="flat-title-page style-2" @style(["background-color: $backgroundColor" => $backgroundColor != 'transparent', "background-image: url($backgroundImage); background-size: cover; background-position: center" => $backgroundImage])>
+    <section class="flat-title-page style-2 p-2" @style(["background-color: $backgroundColor" => $backgroundColor != 'transparent', "background-image: url($backgroundImage); background-size: cover; background-position: center" => $backgroundImage])>
         <div class="container">
             <ul class="breadcrumb">
                 @foreach(Theme::breadcrumb()->getCrumbs() as $crumb)

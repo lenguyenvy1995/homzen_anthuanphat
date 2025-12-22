@@ -165,6 +165,7 @@ class CategoryController extends BaseController
 
     public function destroy(Category $category)
     {
+        
         return DeleteResourceAction::make($category);
     }
 

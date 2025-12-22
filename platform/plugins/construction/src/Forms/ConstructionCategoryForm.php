@@ -13,7 +13,8 @@ use Botble\Base\Forms\FieldOptions\NameFieldOption;
 use Botble\Base\Forms\FormAbstract;
 use Botble\Construction\Http\Requests\ConstructionCategoryRequest;
 use Botble\Construction\Models\ConstructionCategory;
-
+use Botble\Slug\Forms\Fields\SlugField;
+use Botble\Slug\Facades\SlugHelper;
 class ConstructionCategoryForm extends FormAbstract
 {
 

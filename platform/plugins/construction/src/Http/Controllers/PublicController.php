@@ -16,6 +16,12 @@ class PublicController extends BaseController
     {
         SeoHelper::setTitle('Thi Công Xây Dựng');
         SeoHelper::setDescription('Danh sách các công trình thi công xây dựng');
+        // 2. LẤY DANH SÁCH CATEGORY (để render tabs) ← THIẾU CÁI NÀY
+        $categories = ConstructionCategory::query()
+            ->wherePublished()
+            ->where('parent_id', 0)
+            ->orderBy('order')
+            ->get();
 
         $constructions = Construction::query()
             ->wherePublished()
@@ -25,7 +31,7 @@ class PublicController extends BaseController
 
         return Theme::scope(
             'construction.index',
-            compact('constructions')
+            compact('constructions','categories')
         )->render();
     }
     public function handle(string $slug)
@@ -47,25 +53,44 @@ class PublicController extends BaseController
     }
 
 
-    protected function category(int $categoryId)
+    public function category(string $slug)
     {
-        $category = ConstructionCategory::findOrFail($categoryId);
+        // 1. Lấy category hiện tại theo slug
+        $slugItem = SlugHelper::getSlug($slug, SlugHelper::getPrefix(ConstructionCategory::class));
 
-        SeoHelper::setTitle($category->name);
+        abort_if(! $slugItem, 404);
 
+        $category = ConstructionCategory::query()
+            ->where('id', $slugItem->reference_id)
+            ->wherePublished()
+            ->firstOrFail();
+
+        // 2. LẤY DANH SÁCH CATEGORY (để render tabs) ← THIẾU CÁI NÀY
+        $categories = ConstructionCategory::query()
+            ->wherePublished()
+            ->where('parent_id', 0)
+            ->orderBy('order')
+            ->get();
+        // 3. LẤY BÀI VIẾT THEO CATEGORY
         $constructions = Construction::query()
             ->wherePublished()
-            ->whereHas('categories', function ($q) use ($categoryId) {
-                $q->where('construction_categories.id', $categoryId);
+            ->whereHas('categories', function ($q) use ($category) {
+                $q->where('construction_categories.id', $category->id);
             })
+            ->latest()
             ->paginate(9);
 
-        return Theme::scope(
-            'construction.category',
-            compact('category', 'constructions')
-        )->render();
-    }
+        // 4. SEO
+        SeoHelper::setTitle($category->name)
+            ->setDescription($category->description);
 
+        // 5. Trả view
+        return Theme::scope('construction.category', [
+            'category'      => $category,
+            'categories'    => $categories, // ← QUAN TRỌNG
+            'constructions' => $constructions,
+        ])->render();
+    }
     protected function detail(int $constructionId)
     {
         $construction = Construction::findOrFail($constructionId);
