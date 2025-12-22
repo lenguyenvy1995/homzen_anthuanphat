@@ -136,6 +136,7 @@ class CategoryController extends BaseController
 
     public function update(Category $category, CategoryRequest $request)
     {
+
         if ($request->input('is_default')) {
             Category::query()->where('id', '!=', $category->getKey())->update(['is_default' => 0]);
         }
