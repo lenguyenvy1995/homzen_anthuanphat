@@ -25,27 +25,15 @@ AdminHelper::registerRoutes(function () {
         Route::resource('', ConstructionController::class)->parameters(['' => 'construction']);
     });
 });
-
 if (defined('THEME_MODULE_SCREEN_NAME')) {
+    Route::group([
+        'middleware' => ['web'],
+        'prefix' => SlugHelper::getPrefix(Construction::class), // ví dụ: thi-cong-xay-dung
+        'as' => 'public.construction.',
+    ], function () {
+        Route::get('', [PublicController::class, 'index'])->name('index');
 
-    Route::group(['middleware' => ['web']], function () {
-
-        /**
-         * Trang listing (optional)
-         * URL thực tế phụ thuộc permalink trong admin
-         */
-        Route::get(SlugHelper::getPrefix(Construction::class), [
-            'as' => 'public.construction.index',
-            'uses' => PublicController::class . '@index',
-        ])->name('public.construction.index');
-
-        /**
-         * ROUTE DUY NHẤT – GIỐNG BLOG
-         * BẮT MỌI SLUG TỪ BẢNG slugs
-         */
-        Route::get('{slug}', [
-            'as' => 'public.construction.handle',
-            'uses' => PublicController::class . '@handle',
-        ]);
+        // category hoặc bài viết đều đi qua đây
+        Route::get('{slug}', [PublicController::class, 'handle'])->name('handle');
     });
 }
