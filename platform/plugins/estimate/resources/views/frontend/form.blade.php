@@ -1,5 +1,5 @@
 <div id="estimate-box" class="estimate-box">
-    <h3 class="estimate-title">DỰ TOÁN CHI PHÍ XÂY NHÀ</h3>
+    <h6 class="estimate-title">DỰ TOÁN CHI PHÍ XÂY NHÀ</h3>
 
     <div class="estimate-form">
         <div class="form-group">

@@ -1,6 +1,6 @@
 {
     "id": "botble/estimate",
-    "name": "Estimate",
+    "name": "estimate",
     "namespace": "Botble\\Estimate\\",
     "provider": "Botble\\Estimate\\Providers\\EstimateServiceProvider",
     "author": "le nguyen vy",

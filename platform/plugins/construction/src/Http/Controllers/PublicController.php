@@ -36,14 +36,17 @@ class PublicController extends BaseController
             ->wherePublished()
             ->with(['categories', 'slugable'])
             ->orderByDesc('created_at')
-            ->paginate(10);
+            ->paginate(6);
+        $title = __('Thi công xây dựng');
 
+        // 4. Trả view
         return Theme::scope(
             'construction.index',
-            compact('constructions', 'categories')
-        )->render();
+            compact('constructions', 'categories', 'title')
+        )->layout('construction')
+            ->render();
     }
-  public function handle(string $slug, Request $request)
+    public function handle(string $slug, Request $request)
     {
         // 1. Tìm slug trong bảng slugs
         $slugItem = Slug::query()
@@ -102,13 +105,14 @@ class PublicController extends BaseController
                 ->wherePublished()
                 ->where('parent_id', 0)
                 ->get();
+            $title = $category->name;
 
             Theme::set('title', $category->name);
             Theme::set('description', $category->description);
 
             return Theme::scope(
                 'construction.category',
-                compact('category', 'constructions', 'categories')
+                compact('category', 'constructions','title', 'categories')
             )->render();
         }
 

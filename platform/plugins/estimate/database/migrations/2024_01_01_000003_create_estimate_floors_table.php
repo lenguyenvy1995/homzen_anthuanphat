@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('estimate_floors', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');            // Tầng 1, Tầng 2, 1 trệt 1 lầu…
-            $table->decimal('coefficient', 8, 2); // hệ số
-            $table->string('status')->default('published');
-            $table->timestamps();
-        });
+        if (! Schema::hasTable('estimate_floors')) {
+
+            Schema::create('estimate_floors', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');            // Tầng 1, Tầng 2, 1 trệt 1 lầu…
+                $table->decimal('coefficient', 8, 2); // hệ số
+                $table->string('status')->default('published');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
