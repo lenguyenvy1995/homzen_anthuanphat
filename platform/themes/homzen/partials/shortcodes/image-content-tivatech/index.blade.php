@@ -1,6 +1,15 @@
 @php
     use Botble\Media\Facades\RvMedia;
+    $backgroundImage = $shortcode->background_image; // Lấy giá trị hình nền
+    $backgroundColor = $shortcode->background_color; // Lấy giá trị màu nền
+    $backgroundStyle = '';
 
+    // Kiểm tra nếu có hình nền
+    if ($backgroundImage) {
+        $backgroundStyle = 'background-image: url("' . RvMedia::getImageUrl($backgroundImage) . '");';
+    } elseif ($backgroundColor) { 
+        $backgroundStyle = 'background-color: ' . $backgroundColor . ';';
+    }
     // Desktop
     $desktopImageCol = ($shortcode->desktop_position ?? 'left') === 'left'
         ? 'order-md-1'
@@ -20,7 +29,7 @@
         : 'order-1';
 @endphp
 
-<section class="tivatech-image-content py-5">
+<section class="tivatech-image-content py-5"  style="{{ $backgroundStyle }}">
     <div class="container">
         <div class="row align-items-center">
 
