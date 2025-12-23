@@ -711,4 +711,59 @@ Event::listen(RouteMatched::class, function (): void {
 
         return $form;
     });
+
+    Shortcode::register(
+        'image-content-tivatech',
+        __('Image & Content by Tivatech'),
+        __('Image Content'),
+        function (ShortcodeCompiler $shortcode) {
+            return Theme::partial(
+                'shortcodes.image-content-tivatech.index',
+                compact('shortcode')
+            );
+        }
+    );
+    
+    Shortcode::setAdminConfig('image-content-tivatech', function (array $attributes) {
+    
+        $form = ShortcodeForm::createFromArray($attributes)
+            ->add(
+                'title',
+                TextField::class,
+                TextFieldOption::make()->label(__('Title'))
+            )
+            ->add(
+                'description',
+                TextareaField::class,
+                TextareaFieldOption::make()->label(__('Description'))
+            )
+            ->add(
+                'image',
+                MediaImageField::class,
+                MediaImageFieldOption::make()->label(__('Image'))
+            )
+            ->add(
+                'desktop_position',
+                SelectField::class,
+                SelectFieldOption::make()
+                    ->label(__('Image position (Desktop)'))
+                    ->choices([
+                        'left'  => __('Left'),
+                        'right' => __('Right'),
+                    ])
+                    ->defaultValue('left')
+            )
+            ->add(
+                'mobile_position',
+                SelectField::class,
+                SelectFieldOption::make()
+                    ->label(__('Image position (Mobile)'))
+                    ->choices([
+                        'top'    => __('Top'),
+                        'bottom' => __('Bottom'),
+                    ])
+                    ->defaultValue('top')
+                    );
+        return $form;
+    });
 });

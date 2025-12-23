@@ -31,6 +31,10 @@ app('events')->listen(RenderingThemeOptionSettings::class, function (): void {
                     ->label(__('Hover color'))
                     ->defaultValue('#cd380f'),
                 ColorField::make()
+                    ->name('body_background_color')
+                    ->label(__('body background color'))
+                    ->defaultValue('#ffffff'),
+                ColorField::make()
                     ->name('footer_background_color')
                     ->label(__('Footer background color'))
                     ->defaultValue('#161e2d'),
@@ -54,6 +58,7 @@ app('events')->listen(RenderingThemeOptionSettings::class, function (): void {
                     ->name('main_header_background_color')
                     ->label(__('Main header background color'))
                     ->defaultValue('#ffffff'),
+
                 ColorField::make()
                     ->name('main_header_text_color')
                     ->label(__('Main header text color'))

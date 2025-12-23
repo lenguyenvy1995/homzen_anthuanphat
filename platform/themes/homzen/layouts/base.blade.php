@@ -10,6 +10,7 @@
                 --primary-color: {{ theme_option('primary_color', '#db1d23') }};
                 --secondary-color: {{ theme_option('secondary_color', '#000') }};
                 --hover-color: {{ theme_option('hover_color', '#cd380f') }};
+                --body_background_color: {{ theme_option('body_background_color', '#fff') }};
                 --top-header-background-color: {{ theme_option('top_header_background_color', '#f7f7f7') }};
                 --top-header-text-color: {{ theme_option('top_header_text_color', '#161e2d') }};
                 --main-header-background-color: {{ theme_option('main_header_background_color', '#ffffff') }};
@@ -26,7 +27,7 @@
     <body {!! Theme::bodyAttributes() !!}>
         {!! apply_filters(THEME_FRONT_BODY, null) !!}
 
-        <div id="wrapper" style="background-color: var(--main-header-background-color)">
+        <div id="wrapper" style="background-color: var(--body_background_color)">
             <div class="clearfix">
                 @yield('content')
             </div>
