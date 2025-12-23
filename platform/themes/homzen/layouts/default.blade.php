@@ -15,7 +15,7 @@
         {!! Theme::breadcrumb()->render(Theme::getThemeNamespace('partials.breadcrumb')) !!}
     @endif
 
-    <div class="container">
+    <div class="container" style="background-color: var(--body_background_color); padding-top: 30px; padding-bottom: 30px;">
         {!! Theme::content() !!}
     </div>
 
