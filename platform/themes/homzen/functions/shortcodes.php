@@ -15,6 +15,7 @@ use Botble\Base\Forms\Fields\LabelField;
 use Botble\Base\Forms\Fields\MediaImageField;
 use Botble\Base\Forms\Fields\NumberField;
 use Botble\Base\Forms\Fields\OnOffField;
+use Botble\Shortcode\Forms\ShortcodeForm;
 use Botble\Base\Forms\Fields\RadioField;
 use Botble\Base\Forms\Fields\SelectField;
 use Botble\Base\Forms\Fields\TextareaField;
@@ -33,8 +34,6 @@ use Carbon\Carbon;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
-use Theme\Homzen\Forms\ShortcodeForm;
-
 Event::listen(RouteMatched::class, function (): void {
     ThemeSupport::registerGoogleMapsShortcode(Theme::getThemeNamespace('partials.shortcodes'));
     ThemeSupport::registerYoutubeShortcode();
@@ -94,7 +93,7 @@ Event::listen(RouteMatched::class, function (): void {
         __('Displays a set of services in a tabbed format. Each tab represents a service and includes fields for title, description, icon, ...'),
         function (ShortcodeCompiler $shortcode) {
             $services = Shortcode::fields()->getTabsData(['title', 'description', 'icon', 'icon_image', 'button_label', 'button_url'], $shortcode, 'services');
-            $counters = Shortcode::fields()->getTabsData(['number','subnumber', 'label'], $shortcode, 'counters');
+            $counters = Shortcode::fields()->getTabsData(['number', 'subnumber', 'label'], $shortcode, 'counters');
 
             $iconImageSize = $shortcode->icon_image_size ?: 80;
 
@@ -114,7 +113,7 @@ Event::listen(RouteMatched::class, function (): void {
                     ->label(__('Style'))
                     ->choices(
                         collect(range(1, 5))
-                            ->mapWithKeys(fn ($number) => [
+                            ->mapWithKeys(fn($number) => [
                                 $number => [
                                     'label' => __('Style :number', ['number' => $number]),
                                     'image' => Theme::asset()->url("images/shortcodes/services/style-$number.png"),
@@ -263,7 +262,7 @@ Event::listen(RouteMatched::class, function (): void {
                     ->label(__('Style'))
                     ->choices(
                         collect(range(1, 5))
-                            ->mapWithKeys(fn ($number) => [
+                            ->mapWithKeys(fn($number) => [
                                 $number => [
                                     'label' => __('Style :number', ['number' => $number]),
                                     'image' => Theme::asset()->url("images/shortcodes/hero-banner/style-$number.png"),
@@ -367,7 +366,7 @@ Event::listen(RouteMatched::class, function (): void {
                         'rent' => __('For Rent'),
                         'project' => __('Project'),
                         'sale' => __('For Sale'),
-                    ])->sortBy(fn ($tab, $key) => array_search($key, $selectedTabs))->all())
+                    ])->sortBy(fn($tab, $key) => array_search($key, $selectedTabs))->all())
                     ->selected($selectedTabs)
             )
             ->add(
@@ -407,19 +406,19 @@ Event::listen(RouteMatched::class, function (): void {
                 ->defaultValue(5)
                 ->collapsible('style', '1', Arr::get($attributes, 'style', 1))
         )
-        ->add(
-            'enable_rotation',
-            SelectField::class,
-            SelectFieldOption::make()
-                ->label(__('Enable Automatic Rotation'))
-                ->helperText(__('Enable or disable automatic image rotation. When enabled, the banner will cycle through all uploaded images. The rotation pauses when users hover over the banner.'))
-                ->choices([
-                    'yes' => __('Yes'),
-                    'no' => __('No'),
-                ])
-                ->defaultValue('yes')
-                ->collapsible('style', '1', Arr::get($attributes, 'style', 1))
-        );
+            ->add(
+                'enable_rotation',
+                SelectField::class,
+                SelectFieldOption::make()
+                    ->label(__('Enable Automatic Rotation'))
+                    ->helperText(__('Enable or disable automatic image rotation. When enabled, the banner will cycle through all uploaded images. The rotation pauses when users hover over the banner.'))
+                    ->choices([
+                        'yes' => __('Yes'),
+                        'no' => __('No'),
+                    ])
+                    ->defaultValue('yes')
+                    ->collapsible('style', '1', Arr::get($attributes, 'style', 1))
+            );
 
         return $form;
     });
@@ -675,6 +674,41 @@ Event::listen(RouteMatched::class, function (): void {
                 MediaImageFieldOption::make()
                     ->label(__('Image'))
             );
-      
+    });
+    // shortcode custommer by Tivatech
+
+    Shortcode::register(
+        'slider-tivatech',
+        __('Section banner by tivatech'),
+        __('Banner'),
+        function (ShortcodeCompiler $shortcode) {
+            return Theme::partial('shortcodes.slider-tivatech.index', compact('shortcode'));
+        }
+    );
+
+    Shortcode::setPreviewImage(
+        'slider-tivatech',
+        Theme::asset()->url('images/shortcodes/slider-tivatech.png')
+    );
+
+    Shortcode::setAdminConfig('slider-tivatech', function (array $attributes) {
+
+        $form = ShortcodeForm::createFromArray($attributes)
+            ->add(
+                'title',
+                TextField::class,
+                TextFieldOption::make()->label(__('Title'))
+            );
+
+        foreach (range(1, 4) as $i) {
+            $form->add(
+                "slider_image_$i",
+                MediaImageField::class,
+                MediaImageFieldOption::make()
+                    ->label(__('Slider Image :number', ['number' => $i]))
+            );
+        }
+
+        return $form;
     });
 });

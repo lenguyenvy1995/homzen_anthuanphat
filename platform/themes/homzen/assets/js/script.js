@@ -2783,4 +2783,36 @@ $(() => {
     };
 
     initHeroBannerSlider();
+    // js by tivatechdocument.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.tivatechSwiper').forEach(function (el) {
+
+        const swiper = new Swiper(el, {
+            slidesPerView: 1,
+            loop: true,
+            speed: 600,
+
+            // ⏱ autoplay 3.5s
+            autoplay: {
+                delay: 3500,
+                disableOnInteraction: false,
+            },
+
+            // 👆 cho phép kéo / swipe
+            allowTouchMove: true,
+            grabCursor: true,
+
+            // ⬅️➡️ nút điều hướng
+            navigation: {
+                nextEl: el.querySelector('.swiper-button-next'),
+                prevEl: el.querySelector('.swiper-button-prev'),
+            },
+
+            // 🧠 rất quan trọng cho Botble shortcode
+            observer: true,
+            observeParents: true,
+        });
+
+        // đảm bảo autoplay luôn chạy
+        swiper.autoplay.start();
+    });
 });
