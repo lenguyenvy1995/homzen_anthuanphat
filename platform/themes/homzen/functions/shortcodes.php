@@ -498,7 +498,6 @@ Event::listen(RouteMatched::class, function (): void {
     Shortcode::setAdminConfig('call-to-action', function (array $attributes) {
         return ShortcodeForm::createFromArray($attributes)
             ->withLazyLoading()
-            ->add()
             ->add(
                 'image',
                 MediaImageField::class,
@@ -530,7 +529,6 @@ Event::listen(RouteMatched::class, function (): void {
                 TextareaFieldOption::make()
                     ->label(__('Description'))
             )
-            ->addSectionButtonAction()
             ->add(
                 'image',
                 MediaImageField::class,
