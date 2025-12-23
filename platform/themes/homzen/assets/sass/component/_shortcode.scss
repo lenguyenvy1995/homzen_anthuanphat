@@ -8,7 +8,7 @@
     &.shortcode-customer-about {
         .about-cotent {
             .about-cotent-title {
-                background: linear-gradient(180deg, #ffb300 0%, rgb(248 166 67) 50%, rgb(246 151 34) 100%);
+                background: linear-gradient(180deg, #fdd869 0%, rgb(248, 166, 67) 50%, #fdd869 100%);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
@@ -18,21 +18,27 @@
                 -webkit-box-pack: justify;
                 text-align: left;
                 line-height: 1.2 !important;
-                font-size: 5rem;
+                font-size: 4rem;
                 padding: 5px 0;
                 justify-content: space-between;
                 width: 100%;
                 font-weight: 400;
                 font-family: "Beautique Display", serif;
+                @media (max-width: 768px) {
+                    font-size: 3rem;
+                }
             }
 
             .about-cotent-description {
-                font-size: 20px !important;
+                font-size: 20px ;
                 text-align: justify;
-
+                color: var(--body-color);
+                @media (max-width: 768px) {
+                    font-size: 18px;
+                }
                 b {
                     font-weight: bolder;
-                    color: var(--color-primary);
+                    color: $primary;
                 }
             }
         }

@@ -57,8 +57,8 @@ Event::listen(RouteMatched::class, function (): void {
 
     Shortcode::setAdminConfig('image-slider', function (array $attributes) {
         return ShortcodeForm::createFromArray($attributes)
-            ->lazyLoading()
-            ->addBackgroundColorField()
+            ->withLazyLoading()
+            ->withBackgroundColor()
             ->add(
                 'tabs',
                 ShortcodeTabsField::class,
@@ -83,8 +83,7 @@ Event::listen(RouteMatched::class, function (): void {
                         ],
                     ])
                     ->attrs($attributes)
-            )
-            ->addSliderFields();
+                    );
     });
 
     Shortcode::register(
@@ -105,7 +104,7 @@ Event::listen(RouteMatched::class, function (): void {
 
     Shortcode::setAdminConfig('services', function (array $attributes) {
         return ShortcodeForm::createFromArray($attributes)
-            ->lazyLoading()
+            ->withLazyLoading()
             ->add(
                 'style',
                 UiSelectorField::class,
@@ -124,7 +123,7 @@ Event::listen(RouteMatched::class, function (): void {
                     ->selected(Arr::get($attributes, 'style', 1))
                     ->defaultValue(1)
             )
-            ->addSectionHeadingFields()
+            // ->add()
             ->add(
                 'description',
                 TextareaField::class,
@@ -139,7 +138,7 @@ Event::listen(RouteMatched::class, function (): void {
                     ->helperText(__('Enter checklist here, separated by commas (,)'))
                     ->collapsible('style', '3', Arr::get($attributes, 'style', 1))
             )
-            ->addBackgroundColorField()
+            ->withBackgroundColor()
             ->addOpenFieldset('services')
             ->add(
                 'service_label',
@@ -223,7 +222,6 @@ Event::listen(RouteMatched::class, function (): void {
                     ->label(__('Background image'))
                     ->collapsible('style', '4', Arr::get($attributes, 'style', '1'))
             )
-            ->addSectionButtonAction()
             ->add(
                 'centered_content',
                 OnOffField::class,
@@ -379,8 +377,8 @@ Event::listen(RouteMatched::class, function (): void {
                         'rent' => __('Property for rent'),
                         'sale' => __('Property for sale'),
                     ])
-            )
-            ->addSectionButtonAction();
+                    );
+           
 
         foreach (range(1, 4) as $i) {
             $helperText = $i === 1
@@ -499,9 +497,7 @@ Event::listen(RouteMatched::class, function (): void {
 
     Shortcode::setAdminConfig('call-to-action', function (array $attributes) {
         return ShortcodeForm::createFromArray($attributes)
-            ->lazyLoading()
-            ->addSectionHeadingFields()
-            ->addSectionButtonAction()
+            ->withLazyLoading()
             ->add(
                 'image',
                 MediaImageField::class,
@@ -533,7 +529,6 @@ Event::listen(RouteMatched::class, function (): void {
                 TextareaFieldOption::make()
                     ->label(__('Description'))
             )
-            ->addSectionButtonAction()
             ->add(
                 'image',
                 MediaImageField::class,
@@ -582,7 +577,7 @@ Event::listen(RouteMatched::class, function (): void {
 
     Shortcode::setAdminConfig('content-tab', function (array $attributes) {
         return ShortcodeForm::createFromArray($attributes)
-            ->lazyLoading()
+            ->withLazyLoading()
             ->add(
                 'title',
                 TextField::class,
@@ -741,6 +736,20 @@ Event::listen(RouteMatched::class, function (): void {
                 'image',
                 MediaImageField::class,
                 MediaImageFieldOption::make()->label(__('Image'))
+            )
+            ->add(
+                'background_image',
+                MediaImageField::class,
+                MediaImageFieldOption::make()
+                    ->label(__('Background image'))
+                    ->toArray()
+            )
+            ->add(
+                'background_color',
+                ColorField::class,
+                ColorFieldOption::make()
+                    ->label(__('Background color'))
+                    ->toArray(),
             )
             ->add(
                 'desktop_position',
