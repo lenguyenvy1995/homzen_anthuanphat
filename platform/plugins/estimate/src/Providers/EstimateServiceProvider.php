@@ -9,6 +9,7 @@ use Botble\Estimate\Models\Estimate;
 use Botble\LanguageAdvanced\Supports\LanguageAdvancedManager;
 use Botble\Shortcode\Facades\Shortcode;
 use Botble\Estimate\Shortcodes\EstimateCalculatorShortcode;
+use Botble\Estimate\Shortcodes\EstimateHomePageShortcode;
 
 class EstimateServiceProvider extends ServiceProvider
 {
@@ -34,6 +35,12 @@ class EstimateServiceProvider extends ServiceProvider
         $this->loadViewsFrom(
             __DIR__ . '/../../resources/views',
             'estimate'
+        );
+        Shortcode::register(
+            'estimate-home-page',
+            'Dự toán chi phí trang chủ', // ⬅️ Ghi chú bạn muốn
+            'Form dự toán tại trang chủ',
+            [EstimateHomePageShortcode::class, 'render']
         );
         Shortcode::register(
             'estimate_calculator',

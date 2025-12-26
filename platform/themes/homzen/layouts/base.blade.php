@@ -23,6 +23,7 @@
         </style>
 
         {!! Theme::header() !!}
+        
     </head>
 
     <body {!! Theme::bodyAttributes() !!}>
