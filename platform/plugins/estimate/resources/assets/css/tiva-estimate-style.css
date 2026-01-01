@@ -5,3 +5,9 @@
     font-size: 25px;
 }
 .tivatech-estimate .tivatech-estimate__form{}
+.tivatech-estimate__title {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;  
+    font-size: 25px;
+}
